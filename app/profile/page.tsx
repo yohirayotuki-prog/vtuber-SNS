@@ -6,7 +6,16 @@ import { doc, getDoc, updateDoc, collection, query, where, getDocs, orderBy } fr
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, auth, storage } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { ArrowLeft, Edit2, Save, X, Camera, Check } from 'lucide-react';
+import { ArrowLeft, Edit2, Save, X, Camera, Check, Plus, Copy } from 'lucide-react';
+import { createInviteCode, getMyInviteCodes } from '@/lib/inviteCodes';
+
+interface InviteCode {
+  id: string;
+  code: string;
+  maxUses: number;
+  usedCount: number;
+  expiresAt: any;
+}
 
 interface UserData {
   displayName: string;
@@ -34,12 +43,17 @@ export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
   const [editData, setEditData] = useState({ displayName: '', bio: '' });
   const [uploading, setUploading] = useState(false);
+  const [inviteCodes, setInviteCodes] = useState<InviteCode[]>([]);
+  const [creatingCode, setCreatingCode] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await loadUserData(user.uid);
         await loadUserPosts(user.uid);
+        if (userData?.userType === 'vtuber' && userData?.isVerified) {
+          await loadInviteCodes(user.uid);
+        }
       } else {
         router.push('/login');
       }
@@ -82,6 +96,35 @@ export default function ProfilePage() {
     } catch (error) {
       console.error('投稿取得エラー:', error);
     }
+  };
+
+  const loadInviteCodes = async (userId: string) => {
+    try {
+      const codes = await getMyInviteCodes(userId);
+      setInviteCodes(codes);
+    } catch (error) {
+      console.error('招待コード取得エラー:', error);
+    }
+  };
+
+  const handleCreateInviteCode = async () => {
+    if (!auth.currentUser || creatingCode) return;
+    setCreatingCode(true);
+
+    try {
+      const code = await createInviteCode(auth.currentUser.uid);
+      alert(`招待コード作成成功: ${code}`);
+      await loadInviteCodes(auth.currentUser.uid);
+    } catch (error: any) {
+      alert(`エラー: ${error.message}`);
+    } finally {
+      setCreatingCode(false);
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    alert('コピーしました！');
   };
 
   const handleSave = async () => {
@@ -254,6 +297,57 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+
+        {/* 招待コード管理（認証済みVTuberのみ） */}
+        {userData?.userType === 'vtuber' && userData?.isVerified && (
+          <div className="glass rounded-3xl shadow-xl p-8 mb-6 backdrop-blur-xl border border-white/20 slide-in-bottom">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold gradient-text">招待コード管理</h3>
+              <button
+                onClick={handleCreateInviteCode}
+                disabled={creatingCode}
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:shadow-lg transition-all transform hover:scale-105 font-bold disabled:opacity-50"
+              >
+                <Plus className="w-5 h-5" />
+                新規作成
+              </button>
+            </div>
+
+            {inviteCodes.length === 0 ? (
+              <p className="text-gray-500 text-center py-4">招待コードがありません</p>
+            ) : (
+              <div className="space-y-3">
+                {inviteCodes.map((code) => (
+                  <div
+                    key={code.id}
+                    className="glass rounded-2xl p-4 border border-white/20 hover:shadow-md transition-all"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <code className="text-2xl font-bold gradient-text tracking-wider">
+                            {code.code}
+                          </code>
+                          <button
+                            onClick={() => copyToClipboard(code.code)}
+                            className="p-2 hover:bg-white/50 rounded-lg transition-all"
+                          >
+                            <Copy className="w-4 h-4 text-purple-600" />
+                          </button>
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          <span>使用回数: {code.usedCount} / {code.maxUses}</span>
+                          <span className="mx-2">•</span>
+                          <span>有効期限: {new Date(code.expiresAt.seconds * 1000).toLocaleDateString('ja-JP')}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 投稿一覧 */}
         <div className="slide-in-bottom">

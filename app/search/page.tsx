@@ -6,6 +6,8 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { Search, ArrowLeft, Check } from 'lucide-react';
 import { followVTuber, unfollowVTuber, isFollowing } from '@/lib/follows';
+import ThemeToggle from '@/components/ThemeToggle';
+import AdSense from '@/components/AdSense';
 
 interface VTuberUser {
   id: string;
@@ -103,9 +105,10 @@ export default function SearchPage() {
             >
               <ArrowLeft className="w-5 h-5 text-gray-600" />
             </button>
-            <h1 className="text-2xl font-bold gradient-text">
+            <h1 className="text-2xl font-bold gradient-text flex-1">
               VTuberを探す
             </h1>
+            <ThemeToggle />
           </div>
 
           {/* 検索バー */}
@@ -124,6 +127,12 @@ export default function SearchPage() {
 
       {/* VTuberリスト */}
       <main className="max-w-4xl mx-auto px-4 py-6">
+        {/* 広告 */}
+        <AdSense 
+          adSlot="YOUR_AD_SLOT_ID"
+          adFormat="auto"
+        />
+
         {loading ? (
           <div className="text-center py-12 fade-in">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-200 border-t-purple-600 mx-auto"></div>

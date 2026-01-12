@@ -7,6 +7,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { getUserData } from '@/lib/auth';
 import { Search, Home, User as UserIcon, LogOut } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
+import AdSense from '@/components/AdSense';
 
 export default function HomePage() {
   const router = useRouter();
@@ -122,6 +123,12 @@ export default function HomePage() {
             <p className="text-sm text-gray-600">フォロー中のVTuberの投稿</p>
           </button>
         </div>
+
+        {/* 広告 */}
+        <AdSense 
+          adSlot="YOUR_AD_SLOT_ID"
+          adFormat="auto"
+        />
 
         {/* タイムライン（今後実装） */}
         <div className="glass rounded-3xl shadow-lg p-10 text-center backdrop-blur-xl border border-white/20 scale-in">

@@ -1,20 +1,32 @@
-import './globals.css' // この行を追加してスタイルを読み込みます
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Script from "next/script";
 
-export const metadata = {
-  title: 'VTuber専用SNS',
-  description: 'VTuberとリスナーのためのクローズドコミュニティ',
-}
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "VTuber SNS",
+  description: "VTuberとリスナーのための専用SNS",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="ja">
-      <body className="antialiased text-slate-100 bg-slate-950">
-        {children}
-      </body>
+      <head>
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5867723859202252"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
+      <body className={inter.className}>{children}</body>
     </html>
-  )
+  );
 }
