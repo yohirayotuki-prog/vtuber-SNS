@@ -1,1 +1,274 @@
 @import "tailwindcss";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50;
+    @apply text-foreground;
+    @apply transition-colors duration-300;
+  }
+  
+  /* ダークモード */
+  body.dark {
+    @apply bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900;
+    @apply text-gray-100;
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  body.dark .glass {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* ダークモードのテキスト色 */
+  body.dark .text-gray-600 {
+    @apply text-gray-400;
+  }
+  
+  body.dark .text-gray-700 {
+    @apply text-gray-300;
+  }
+  
+  body.dark .text-gray-800 {
+    @apply text-gray-200;
+  }
+}
+
+@layer utilities {
+  /* グラスモーフィズム */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* グラデーションテキスト */
+  .gradient-text {
+    @apply bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent;
+  }
+
+  /* アニメーション付きグラデーション背景 */
+  .animated-gradient {
+    background: linear-gradient(
+      -45deg,
+      #ee7752,
+      #e73c7e,
+      #23a6d5,
+      #23d5ab
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  /* ホバー時のグロー効果 */
+  .glow-hover {
+    @apply transition-all duration-300;
+  }
+  .glow-hover:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* カードホバー */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  .card-hover:hover {
+    @apply shadow-xl;
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  /* スムーズなフェードイン */
+  .fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  /* スライドイン（上から） */
+  .slide-in-top {
+    animation: slideInTop 0.4s ease-out;
+  }
+
+  /* スライドイン（下から） */
+  .slide-in-bottom {
+    animation: slideInBottom 0.4s ease-out;
+  }
+
+  /* スライドイン（左から） */
+  .slide-in-left {
+    animation: slideInLeft 0.4s ease-out;
+  }
+
+  /* スライドイン（右から） */
+  .slide-in-right {
+    animation: slideInRight 0.4s ease-out;
+  }
+
+  /* スケールイン */
+  .scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  /* パルス（いいねボタンなど） */
+  .pulse-once {
+    animation: pulseOnce 0.5s ease-in-out;
+  }
+
+  /* シマー効果（ローディング） */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      #f0f0f0 25%,
+      #e0e0e0 50%,
+      #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+/* キーフレームアニメーション */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseOnce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* スクロールバーのカスタマイズ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #a855f7, #ec4899);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9333ea, #db2777);
+}
+
+/* セレクション（テキスト選択）のスタイル */
+::selection {
+  background-color: rgba(168, 85, 247, 0.3);
+  color: inherit;
+}
+
+/* フォーカス時のリング */
+input:focus,
+textarea:focus,
+select:focus {
+  @apply ring-2 ring-purple-500 ring-offset-2;
+}
+
+/* ボタンのアクティブ状態 */
+button:active {
+  transform: scale(0.98);
+}

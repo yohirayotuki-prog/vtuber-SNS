@@ -6,6 +6,7 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { getUserData } from '@/lib/auth';
 import { Search, Home, User as UserIcon, LogOut } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function HomePage() {
   const router = useRouter();
@@ -54,6 +55,7 @@ export default function HomePage() {
           </h1>
           
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <button
               onClick={() => router.push('/search')}
               className="p-2.5 hover:bg-white/50 rounded-xl transition-all transform hover:scale-110"
