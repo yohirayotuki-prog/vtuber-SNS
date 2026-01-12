@@ -138,6 +138,15 @@ export default function HomePage() {
             VTuberをフォローして、最新の投稿をチェックしましょう！
           </p>
         </div>
+
+        {/* フッター */}
+        <footer className="mt-12 text-center text-sm text-gray-500">
+          <div className="flex justify-center gap-6">
+            <a href="/privacy" className="hover:text-purple-600 transition">プライバシーポリシー</a>
+            <a href="/terms" className="hover:text-purple-600 transition">利用規約</a>
+          </div>
+          <p className="mt-4">© 2024 VTuber SNS. All rights reserved.</p>
+        </footer>
       </main>
     </div>
   );
