@@ -3,11 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db, auth } from '@/app/lib/firebase';
+import { db, auth } from '@/lib/firebase';
 import { Search, ArrowLeft, Check } from 'lucide-react';
-import { followVTuber, unfollowVTuber, isFollowing } from '@/app/lib/follows';
-import ThemeToggle from '@/app/components/ThemeToggle';
-import AdSense from '@/app/components/AdSense';
+import { followVTuber, unfollowVTuber, isFollowing } from '@/lib/follows';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface VTuberUser {
   id: string;
@@ -127,12 +126,6 @@ export default function SearchPage() {
 
       {/* VTuberリスト */}
       <main className="max-w-4xl mx-auto px-4 py-6">
-        {/* 広告 */}
-        <AdSense 
-          adSlot="YOUR_AD_SLOT_ID"
-          adFormat="auto"
-        />
-
         {loading ? (
           <div className="text-center py-12 fade-in">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-200 border-t-purple-600 mx-auto"></div>
