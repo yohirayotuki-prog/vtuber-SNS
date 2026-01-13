@@ -95,9 +95,14 @@ export default function FanroomPage() {
         ...doc.data(),
       })) as Post[];
 
+      console.log('投稿取得:', postList); // デバッグ用
       setPosts(postList);
     } catch (error) {
       console.error('投稿取得エラー:', error);
+      // Firestoreのインデックスエラーの場合
+      if (error.code === 'failed-precondition') {
+        alert('Firestoreのインデックスを作成してください。コンソールのリンクをクリックしてください。');
+      }
     } finally {
       setLoading(false);
     }
@@ -117,7 +122,7 @@ export default function FanroomPage() {
         imageUrl = await getDownloadURL(storageRef);
       }
 
-      await addDoc(collection(db, 'posts'), {
+      const newPostData = {
         userId: currentUserId,
         content: newPost,
         imageUrl: imageUrl || null,
@@ -126,15 +131,22 @@ export default function FanroomPage() {
         commentsCount: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
-      });
+      };
+
+      console.log('投稿データ:', newPostData); // デバッグ用
+      const docRef = await addDoc(collection(db, 'posts'), newPostData);
+      console.log('投稿ID:', docRef.id); // デバッグ用
 
       setNewPost('');
       setImageFile(null);
       setImagePreview('');
-      loadPosts();
+      
+      // 投稿後すぐに再読み込み
+      await loadPosts();
+      alert('投稿しました！');
     } catch (error) {
       console.error('投稿エラー:', error);
-      alert('投稿に失敗しました');
+      alert('投稿に失敗しました: ' + error.message);
     } finally {
       setIsPosting(false);
     }
@@ -266,6 +278,7 @@ export default function FanroomPage() {
         {/* 投稿作成（VTuberのみ） */}
         {currentUserId === vtuberId && (
           <div className="glass rounded-3xl shadow-lg p-6 mb-6 backdrop-blur-xl border border-white/20 slide-in-bottom">
+            <h3 className="font-bold mb-3">投稿を作成</h3>
             <textarea
               value={newPost}
               onChange={(e) => setNewPost(e.target.value)}

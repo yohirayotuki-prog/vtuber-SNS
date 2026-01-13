@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db, auth } from '@/lib/firebase';
+import { db, auth } from '@/app/lib/firebase';
 import { Search, ArrowLeft, Check } from 'lucide-react';
-import { followVTuber, unfollowVTuber, isFollowing } from '@/lib/follows';
-import ThemeToggle from '@/components/ThemeToggle';
-import AdSense from '@/components/AdSense';
+import { followVTuber, unfollowVTuber, isFollowing } from '@/app/lib/follows';
+import ThemeToggle from '@/app/components/ThemeToggle';
+import AdSense from '@/app/components/AdSense';
 
 interface VTuberUser {
   id: string;

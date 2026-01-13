@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, query, where, getDocs, doc, getDoc, orderBy } from 'firebase/firestore';
-import { db, auth } from '@/lib/firebase';
+import { db, auth } from '@/app/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ArrowLeft, Users, Heart, MessageCircle, Check } from 'lucide-react';
 

@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db, auth } from '@/lib/firebase';
+import { db, auth } from '@/app/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { isAdmin, grantVerificationBadge, revokeVerificationBadge } from '@/lib/admin';
+import { isAdmin, grantVerificationBadge, revokeVerificationBadge } from '@/app/lib/admin';
 import { ArrowLeft, Shield, Check, X } from 'lucide-react';
 
 interface VTuber {

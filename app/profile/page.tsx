@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { doc, getDoc, updateDoc, collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, auth, storage } from '@/lib/firebase';
+import { db, auth, storage } from '@/app/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ArrowLeft, Edit2, Save, X, Camera, Check, Plus, Copy } from 'lucide-react';
-import { createInviteCode, getMyInviteCodes } from '@/lib/inviteCodes';
+import { createInviteCode, getMyInviteCodes } from '@/app/lib/inviteCodes';
 
 interface InviteCode {
   id: string;

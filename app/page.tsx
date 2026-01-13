@@ -22,7 +22,7 @@ export default function HomePage() {
         const data = await getUserData(user.uid);
         setUserData(data);
       } else {
-        router.push('/login');
+        router.push('/landing');
       }
       setLoading(false);
     });

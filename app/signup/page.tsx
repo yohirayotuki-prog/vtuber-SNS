@@ -188,7 +188,7 @@ export default function SignUpPage() {
         {/* ログインリンク */}
         <p className="text-center text-gray-600 mt-6">
           すでにアカウントをお持ちですか？{' '}
-          <a href="/login" className="text-purple-600 hover:text-purple-700 font-medium">
+          <a href="/login" className="text-purple-600 hover:text-purple-700 font-medium transition hover:underline">
             ログイン
           </a>
         </p>
